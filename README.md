@@ -174,7 +174,7 @@ The API supports pagination for the GET /api/v1/shipments endpoint. The client c
 
 Once the server is running, you can use tools like `curl`, Postman to interact with the API endpoints as described above.
 
-Also find the postman documentation on https://documenter.getpostman.com/view/21657944/2sA3kPpjMi
+Also find the postman documentation on https://logistic-app-server.onrender.com/api/v1/docs or https://documenter.getpostman.com/view/21657944/2sA3kPpjMi
 
 ## License
 
