@@ -1,0 +1,16 @@
+version: '3.8'  # Specify the Docker Compose version
+
+services:
+  mongodb:
+    image: mongo:latest    # Use the latest official MongoDB image
+    restart: always         # Restart the container automatically if it fails
+    ports:
+      - "27017:27017"      # Map the container's port to the host machine (optional)
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD} 
+    volumes: 
+      - mongo-data:/data/db  # Mount a volume for data persistence
+
+volumes:
+  mongo-data:                # Define the named volume
