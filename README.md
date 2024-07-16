@@ -1,7 +1,7 @@
-# Simple Blog API
+# Logistic Service API
 
 # API Endpoints
-This project is a RESTful API for a simple blog application.
+This project is a RESTful API for a logistic service application.
 This repository contains an implementation of API endpoints to connect with MongoDB Atlas using Express, MongoDB, Mongoose, and TypeScript.
 
 ## Technologies Used
@@ -12,92 +12,148 @@ This repository contains an implementation of API endpoints to connect with Mong
 - **TypeScript:** A superset of JavaScript that adds static typing and other features.
 
 ## Getting Started
- The application allows users to create, read, update, and delete blog posts. Each blog post contains the following properties:
+ The application allows users to create, read, update, and delete shipments. Each shipments contains the following properties:
 
-- **Title** (string)
-- **Content** (string)
-- **Author** (string)
-- **Creation Date** (timestamp)
+- **Name** (string)
+- **Origin** (string)
+- **Destination** (string)
+- **Origin** (string)
+- **Tracking Number** (string)
+- **Creation At** (timestamp)
+- **Updated At** (timestamp)
 
 ## Endpoints
 
-### 1. Create a New Blog Post
+### 1. Create a New Shipment
 
 - **HTTP Method:** POST
-- **Endpoint:** `/api/posts`
+- **Endpoint:** `/api/v1/shipments`
 - **Request Body:**
 
   ```json
   {
-    "title": "Sample Blog Post",
-    "content": "This is the content of the blog post.",
-    "author": "John Doe"
+      "name": "Shipment Name",
+      "origin": "Origin",
+      "destination": "Destination"
   }
   ```
 
 - **Response:**
   - **Status Code:** 201 (Created) if successful
-  - **Response Body:** The created blog post object
+  - **Response Body:** The created shipment object
 
-### 2. Get a List of All Blog Posts
+  ```json
+    {
+      "status": "success",
+      "message": "Shipment created successfully",
+      "data": {
+          "_id": "640999999999999999999999",
+          "name": "Shipment Name",
+          "origin": "Origin",
+          "destination": "Destination",
+          "trackingNo": "ABC12345678",
+          "status": "pending",
+          "createdAt": "2022-01-01T00:00:00.000Z",
+          "updatedAt": "2022-01-01T00:00:00.000Z"
+      }
+  }
+  ```
+
+### 2. Get a List of All Shipments
 
 - **HTTP Method:** GET
-- **Endpoint:** `/api/posts`
+- **Endpoint:** `/api/v1/shipments`
 - **Response:**
   - **Status Code:** 200 (OK) if successful
-  - **Response Body:** An array of blog post objects
+  - **Response Body:** An array of shipment objects
 
-### 3. Get a Single Blog Post by ID
+    ```json
+    {
+      "status": "success",
+      "message": "Shipments fetched successfully",
+      "data": [
+          {
+              "_id": "640999999999999999999999",
+              "name": "Shipment Name",
+              "origin": "Origin",
+              "destination": "Destination",
+              "trackingNo": "ABC12345678",
+              "status": "pending",
+              "createdAt": "2022-01-01T00:00:00.000Z",
+              "updatedAt": "2022-01-01T00:00:00.000Z"
+          },
+          {
+              "_id": "640999999999999999999998",
+              "name": "Another Shipment",
+              "origin": "Origin 2",
+              "destination": "Destination 2",
+              "trackingNo": "XYZ98765432",
+              "status": "in_transit",
+              "createdAt": "2022-01-02T00:00:00.000Z",
+              "updatedAt": "2022-01-02T00:00:00.000Z"
+          }
+      ]
+  }
+    ```
+
+
+### 3. Get a Single Shipment by ID
 
 - **HTTP Method:** GET
-- **Endpoint:** `/api/posts/:postId`
+- **Endpoint:** `/api/shipments/:shipmentID`
 - **Response:**
   - **Status Code:** 200 (OK) if successful
-  - **Response Body:** The requested blog post object
-  - **Status Code:** 404 (Not Found) if the specified post ID does not exist
+  - **Response Body:** The requested shipment object
+  - **Status Code:** 404 (Not Found) if the specified shipment ID does not exist
 
-### 4. Update an Existing Blog Post
+### 4. Update an Existing Shipment
 
 - **HTTP Method:** PUT
-- **Endpoint:** `/api/posts/:postId`
+- **Endpoint:** `/api/v1/shipments/:shipmentID`
 - **Request Body:**
 
   ```json
   {
-    "title": "Updated Blog Post Title",
-    "content": "This is the updated content of the blog post."
+    "name": "Updated Shipment Name",
+    "origin": "Origin",
+    "destination": "Destination",
+    "trackingNo": "ABC12345678",
+    "status": "delivered",
   }
   ```
 
 - **Response:**
   - **Status Code:** 200 (OK) if successful
-  - **Response Body:** The updated blog post object
-  - **Status Code:** 404 (Not Found) if the specified post ID does not exist
+  - **Response Body:** The updated shipment object
+  - **Status Code:** 404 (Not Found) if the specified shipment ID does not exist
 
-### 5. Delete a Blog Post by ID
+### 5. Delete a Shipment by ID
 
 - **HTTP Method:** DELETE
-- **Endpoint:** `/api/posts/:postId`
+- **Endpoint:** `/api/v1/shipments/:shipmentID`
 - **Response:**
   - **Status Code:** 204 (No Content) if successful (no response body)
-  - **Status Code:** 404 (Not Found) if the specified post ID does not exist
+  - **Status Code:** 404 (Not Found) if the specified shipment ID does not exist
 
 ## Error Handling
 
 For all endpoints, appropriate error messages are returned with relevant status codes in case of any errors. For instance:
 
-- **Status Code:** 404 (Not Found) if the specified post ID does not exist.
+- **Status Code:** 404 (Not Found) if the specified shipment ID does not exist.
+
+- **Pagination:**
+The API supports pagination for the GET /api/v1/shipments endpoint. The client can specify the page number and the number of items per page in the query parameters.
 
 ## Setup and Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/tobbyano1234/garage-mobility-web-services.git
+   git clone https://github.com/Tobbyano1234/Logistic-app-server.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd simple-blog-api
+   cd logistic-app-server
    ```
 
 3. Install the dependencies:
@@ -112,11 +168,13 @@ For all endpoints, appropriate error messages are returned with relevant status 
 
 ## Additional Notes
 
-- Ensure MongoDB Atlas connection details are correctly configured in the `garage-mobility-web-api/config/database/index.ts` file.
+- Ensure MongoDB Atlas connection details are correctly configured in the `web-api/config/database/index.ts` file.
 
 ## Usage
 
 Once the server is running, you can use tools like `curl`, Postman to interact with the API endpoints as described above.
+
+Also find the postman documentation on https://documenter.getpostman.com/view/21657944/2sA3kPpjMi
 
 ## License
 
